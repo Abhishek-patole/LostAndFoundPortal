@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Event List - Lost & Found Portal</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <nav class="container">
+    <div class="logo">Lost & Found</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="events.html" class="active">Event List</a></li>
+      <li><a href="register.html">Register</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section class="hero">
+      <h1 class="page-title">Upcoming Events</h1>
+      <p>Community recovery drives and lost/found meetups. Stay in the loop and join one.</p>
+    </section>
+
+    <section class="card">
+      <h2>Event Calendar</h2>
+
+      <!-- Search and Filter -->
+      <div style="margin-bottom: 15px;">
+        <input type="text" id="searchInput" placeholder="Search events..." />
+        <select id="categoryFilter">
+          <option value="all">All Categories</option>
+          <option value="Drive">Drive</option>
+          <option value="Session">Session</option>
+          <option value="Booth">Booth</option>
+        </select>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Event Name</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody id="eventTableBody">
+          <tr><td colspan="4" style="text-align: center;">Loading events...</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Registration Form -->
+    <section class="card">
+      <h2>Register for an Event</h2>
+      <form id="eventForm">
+        <div class="form-group">
+          <label for="eventSelect">Select Event</label>
+          <select id="eventSelect" required>
+            <option value="">Choose an event...</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="Full Name" required />
+          <span id="nameError" class="error"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="Email Address" required />
+          <span id="emailError" class="error"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="mobile">Mobile Number</label>
+          <input type="text" id="mobile" placeholder="Mobile Number" required />
+          <span id="mobileError" class="error"></span>
+        </div>
+
+        <button type="submit">Register</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      Events are subject to change. Check back regularly.
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    let allEvents = [];
+
+    // Fetch events from API
+    async function loadEvents() {
+      try {
+        const response = await fetch('/api/events');
+        const data = await response.json();
+        
+        if (data.events) {
+          allEvents = data.events;
+          populateEventSelect();
+          renderEvents();
+        }
+      } catch (error) {
+        console.error('Error loading events:', error);
+        document.getElementById('eventTableBody').innerHTML = 
+          '<tr><td colspan="4" style="text-align: center; color: red;">Failed to load events</td></tr>';
+      }
+    }
+
+    // Populate event dropdown
+    function populateEventSelect() {
+      const select = document.getElementById('eventSelect');
+      select.innerHTML = '<option value="">Choose an event...</option>';
+      
+      allEvents.forEach(event => {
+        const option = document.createElement('option');
+        option.value = event._id;
+        option.textContent = `${event.name} - ${event.date}`;
+        select.appendChild(option);
+      });
+    }
+
+    // Render events in table
+    function renderEvents(filterText = "", category = "all") {
+      const tableBody = document.getElementById("eventTableBody");
+      
+      let filteredEvents = allEvents.filter(event => {
+        let matchesSearch = event.name.toLowerCase().includes(filterText.toLowerCase()) ||
+                            event.details.toLowerCase().includes(filterText.toLowerCase()) ||
+                            event.location.toLowerCase().includes(filterText.toLowerCase());
+        let matchesCategory = category === "all" || event.category === category;
+        return matchesSearch && matchesCategory;
+      });
+
+      if (filteredEvents.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center;">No events found</td></tr>`;
+        return;
+      }
+
+      tableBody.innerHTML = filteredEvents.map(event => `
+        <tr>
+          <td>${event.name}</td>
+          <td>${event.date}</td>
+          <td>${event.location}</td>
+          <td>${event.details}</td>
+        </tr>
+      `).join('');
+    }
+
+    // Event registration form
+    document.getElementById("eventForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      
+      // Clear errors
+      document.getElementById("nameError").textContent = "";
+      document.getElementById("emailError").textContent = "";
+      document.getElementById("mobileError").textContent = "";
+
+      // Get values
+      let eventId = document.getElementById("eventSelect").value;
+      let name = document.getElementById("name").value.trim();
+      let email = document.getElementById("email").value.trim();
+      let mobile = document.getElementById("mobile").value.trim();
+
+      let isValid = true;
+
+      // Validation
+      if (!eventId) {
+        alert("Please select an event");
+        return;
+      }
+
+      if (name === "") {
+        document.getElementById("nameError").textContent = "Name is required.";
+        isValid = false;
+      }
+
+      let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+      if (email === "" || !email.match(emailPattern)) {
+        document.getElementById("emailError").textContent = "Enter a valid email.";
+        isValid = false;
+      }
+
+      let mobilePattern = /^[0-9]{10}$/;
+      if (!mobile.match(mobilePattern)) {
+        document.getElementById("mobileError").textContent = "Enter a valid 10-digit mobile number.";
+        isValid = false;
+      }
+
+      if (!isValid) return;
+
+      // Submit registration
+      try {
+        const response = await fetch('/api/events/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ eventId, name, email, mobile })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          alert(data.message || 'Registration failed');
+          return;
+        }
+
+        alert("Registration Successful!");
+        document.getElementById("eventForm").reset();
+      } catch (error) {
+        console.error('Registration error:', error);
+        alert("Something went wrong. Please try again.");
+      }
+    });
+
+    // Search and filter
+    const searchInput = document.getElementById("searchInput");
+    const categoryFilter = document.getElementById("categoryFilter");
+
+    searchInput.addEventListener("input", () => {
+      renderEvents(searchInput.value, categoryFilter.value);
+    });
+
+    categoryFilter.addEventListener("change", () => {
+      renderEvents(searchInput.value, categoryFilter.value);
+    });
+
+    // Initial load
+    loadEvents();
+  </script>
+</body>
+</html>

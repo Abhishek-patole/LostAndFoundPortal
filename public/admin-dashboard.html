@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard - Lost & Found Portal</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <nav class="container">
+    <div class="logo">Lost & Found - Admin Panel</div>
+    <ul>
+      <li><a href="#" id="navEvents" class="active">Events</a></li>
+      <li><a href="#" id="navParticipants">All Participants</a></li>
+      <li><a href="#" id="logoutBtn" style="color: #ff6b6b;">Logout</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section class="hero">
+      <h1 class="page-title">Admin Dashboard</h1>
+      <p id="welcomeMsg">Welcome back, Admin!</p>
+    </section>
+
+    <!-- Events Management Section -->
+    <section id="eventsSection" class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+        <h2>Event Management</h2>
+        <button id="addEventBtn">+ Add New Event</button>
+      </div>
+
+      <div id="eventsTable">
+        <table>
+          <thead>
+            <tr>
+              <th>Event Name</th>
+              <th>Date</th>
+              <th>Location</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Participants</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="eventsTableBody">
+            <tr><td colspan="7" style="text-align: center;">Loading events...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- All Participants Section -->
+    <section id="participantsSection" class="card" style="display: none;">
+      <h2>All Event Registrations</h2>
+      <p class="small" style="margin-bottom: 1rem;">Total Registrations: <strong id="totalParticipants">0</strong></p>
+
+      <div id="participantsTable">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Mobile</th>
+              <th>Event</th>
+              <th>Registration Date</th>
+            </tr>
+          </thead>
+          <tbody id="participantsTableBody">
+            <tr><td colspan="5" style="text-align: center;">Loading participants...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Event Modal -->
+  <div id="eventModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2 id="modalTitle">Add New Event</h2>
+        <span class="modal-close">&times;</span>
+      </div>
+
+      <form id="eventForm">
+        <input type="hidden" id="eventId" />
+
+        <div class="form-group">
+          <label for="eventName">Event Name *</label>
+          <input required type="text" id="eventName" placeholder="Lost & Found Drive" />
+        </div>
+
+        <div class="form-group">
+          <label for="eventDate">Event Date *</label>
+          <input required type="text" id="eventDate" placeholder="August 10, 2025" />
+        </div>
+
+        <div class="form-group">
+          <label for="eventLocation">Location *</label>
+          <input required type="text" id="eventLocation" placeholder="Main Campus Hall" />
+        </div>
+
+        <div class="form-group">
+          <label for="eventCategory">Category *</label>
+          <select required id="eventCategory">
+            <option value="">Select Category</option>
+            <option value="Drive">Drive</option>
+            <option value="Session">Session</option>
+            <option value="Booth">Booth</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="eventDetails">Details *</label>
+          <textarea required id="eventDetails" rows="4" placeholder="Describe the event..."></textarea>
+        </div>
+
+        <div class="form-group" id="activeStatusGroup" style="display: none;">
+          <label>
+            <input type="checkbox" id="eventActive" checked />
+            Event is Active
+          </label>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+          <button type="button" class="modal-close" style="background: #6c757d;">Cancel</button>
+          <button type="submit">Save Event</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Participants Modal -->
+  <div id="participantsModal" class="modal" style="display: none;">
+    <div class="modal-content" style="max-width: 800px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2 id="participantsModalTitle">Event Participants</h2>
+        <span class="participants-modal-close">&times;</span>
+      </div>
+
+      <p class="small" style="margin-bottom: 1rem;">Total: <strong id="participantCount">0</strong> participants</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Registered On</th>
+          </tr>
+        </thead>
+        <tbody id="participantsModalBody">
+          <tr><td colspan="4" style="text-align: center;">Loading...</td></tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top: 1rem; text-align: right;">
+        <button type="button" class="participants-modal-close" style="background: #6c757d;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      © 2025 Lost & Found Portal. All rights reserved.
+    </div>
+  </footer>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

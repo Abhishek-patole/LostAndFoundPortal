@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Login - Lost & Found Portal</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <nav class="container">
+    <div class="logo">Lost & Found</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="events.html">Event List</a></li>
+      <li><a href="register.html">Register</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section class="hero">
+      <h1 class="page-title">Admin Login</h1>
+      <p>Access the administrative dashboard to manage events and participants.</p>
+    </section>
+
+    <section class="card" style="max-width: 500px; margin: 2rem auto;">
+      <form id="adminLoginForm" novalidate>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input required type="email" id="email" name="email" placeholder="admin@example.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input required type="password" id="password" name="password" placeholder="••••••••" />
+        </div>
+
+        <div id="errorMessage" class="error" style="margin-bottom: 1rem;"></div>
+
+        <button type="submit">Login</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2025 Lost & Found Portal. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById("adminLoginForm");
+    const errorMsg = document.getElementById("errorMessage");
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      errorMsg.textContent = "";
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!email || !password) {
+        errorMsg.textContent = "Please enter both email and password.";
+        return;
+      }
+
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/i;
+      if (!emailPattern.test(email)) {
+        errorMsg.textContent = "Please enter a valid email address.";
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          errorMsg.textContent = data.message || "Login failed";
+          return;
+        }
+
+        // Check if user is admin
+        if (data.user.role !== 'admin') {
+          errorMsg.textContent = "Access denied. Admin credentials required.";
+          return;
+        }
+
+        // Store token and user info
+        localStorage.setItem("adminToken", data.token);
+        localStorage.setItem("adminUser", JSON.stringify(data.user));
+
+        // Redirect to admin dashboard
+        window.location.href = "/admin-dashboard.html";
+      } catch (err) {
+        console.error("Error:", err);
+        errorMsg.textContent = "Something went wrong. Please try again.";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lost & Found Portal - Home</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <nav class="container" aria-label="Main navigation">
+      <div class="logo" aria-label="Site logo">Lost &amp; Found</div>
+      <ul>
+        <li>
+          <a href="index.html" class="active" aria-current="page">Home</a>
+        </li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="events.html">Event List</a></li>
+        <li><a href="register.html">Register</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="admin-login.html">Admin Login</a></li>
+      </ul>
+    </nav>
+
+    <main class="container" aria-label="Main content">
+      <section
+        class="hero"
+        style="
+          background: url('https://images.unsplash.com/photo-1581092795365-2954b7c11336?auto=format&fit=crop&w=1350&q=80')
+            center/cover no-repeat;
+          border-radius: 10px;
+          padding: 2rem;
+          margin: 1rem 0;
+          color: #fff;
+        "
+      >
+        <div class="hero-content">
+          <h1 class="page-title" style="color: white">Find &amp; Reunite</h1>
+          <p style="margin: 0.5rem 0; font-size: 1.1rem">
+            Community-powered lost and found: report, search, and recover items
+            quickly.
+          </p>
+          <div
+            style="
+              display: flex;
+              gap: 0.75rem;
+              flex-wrap: wrap;
+              margin-top: 1rem;
+            "
+          >
+            <a href="register.html"><button>Get Started</button></a>
+            <a href="events.html" style="margin-left: 0.25rem"
+              ><button>Upcoming Events</button></a
+            >
+          </div>
+          <p class="small" style="margin-top: 1rem">
+            Join thousands who’ve reunited with their belongings. Safe, free,
+            and local.
+          </p>
+        </div>
+      </section>
+
+      <!-- Quick stats -->
+      <div class="stats" aria-label="Portal statistics">
+        <div class="stat">
+          <div class="value" aria-label="Total reports">1,254</div>
+          <div>Total Reports</div>
+        </div>
+        <div class="stat">
+          <div class="value" aria-label="Items recovered">987</div>
+          <div>Items Recovered</div>
+        </div>
+        <div class="stat">
+          <div class="value" aria-label="Active volunteers">42</div>
+          <div>Active Volunteers</div>
+        </div>
+      </div>
+
+      <!-- Filter / search -->
+      <section class="card" aria-label="Search and recent reports">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+          "
+        >
+          <div>
+            <h2 style="margin-bottom: 4px">Recent Reports</h2>
+            <p class="small">
+              Browse latest lost or found items reported by the community.
+            </p>
+          </div>
+          <div
+            style="
+              display: flex;
+              gap: 0.75rem;
+              flex-wrap: wrap;
+              align-items: center;
+            "
+          >
+            <div class="tabs" role="tablist" aria-label="Lost and found filter">
+              <button
+                class="tab-btn active"
+                data-type="lost"
+                role="tab"
+                aria-selected="true"
+              >
+                Lost
+              </button>
+              <button
+                class="tab-btn"
+                data-type="found"
+                role="tab"
+                aria-selected="false"
+              >
+                Found
+              </button>
+            </div>
+            <div class="search-bar">
+              <label for="search-input" class="visually-hidden"
+                >Search items</label
+              >
+              <input
+                id="search-input"
+                type="text"
+                placeholder="Search by keyword or location"
+                aria-label="Search recent reports"
+              />
+              <button
+                id="clear-search"
+                style="
+                  padding: 0.65rem 1rem;
+                  border-radius: 8px;
+                  border: 1px solid #1f4e8c;
+                  background: white;
+                  cursor: pointer;
+                "
+              >
+                Clear
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-grid" id="report-list">
+          <!-- card example -->
+          <div class="card item-card" data-type="lost">
+            <div class="badge">Lost</div>
+            <h3>Blue backpack</h3>
+            <p class="small">Near Central Library — July 30, 2025</p>
+            <p>
+              Contains textbooks and a laptop charger. Last seen on 3rd floor.
+            </p>
+            <div style="margin-top: 0.5rem">
+              <button style="padding: 0.5rem 0.9rem; font-size: 0.85rem">
+                View Details
+              </button>
+            </div>
+          </div>
+
+          <div class="card item-card" data-type="found">
+            <div class="badge" style="background: #28a745; color: white">
+              Found
+            </div>
+            <h3>Gold ring</h3>
+            <p class="small">Cafeteria — July 28, 2025</p>
+            <p>
+              Plain band with tiny engraving inside. Turned in to front desk.
+            </p>
+            <div style="margin-top: 0.5rem">
+              <button style="padding: 0.5rem 0.9rem; font-size: 0.85rem">
+                Claim
+              </button>
+            </div>
+          </div>
+
+          <div class="card item-card" data-type="lost">
+            <div class="badge">Lost</div>
+            <h3>Smartphone (Black)</h3>
+            <p class="small">Lecture Hall 3B — July 27, 2025</p>
+            <p>
+              Screen protector with small crack, lock screen shows calendar
+              reminder.
+            </p>
+            <div style="margin-top: 0.5rem">
+              <button style="padding: 0.5rem 0.9rem; font-size: 0.85rem">
+                View Details
+              </button>
+            </div>
+          </div>
+
+          <!-- placeholder for more -->
+          <div class="card item-card" data-type="found">
+            <div class="badge" style="background: #28a745; color: white">
+              Found
+            </div>
+            <h3>Water bottle</h3>
+            <p class="small">Gym area — July 29, 2025</p>
+            <p>Blue stainless steel bottle with sticker. Lid missing.</p>
+            <div style="margin-top: 0.5rem">
+              <button style="padding: 0.5rem 0.9rem; font-size: 0.85rem">
+                Claim
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div
+        class="container"
+        style="
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+          justify-content: space-between;
+        "
+      >
+        <div>
+          <strong>Lost &amp; Found Portal</strong><br />
+          Helping communities reunite with belongings since 2025.
+        </div>
+        <div>
+          <div><strong>Quick links</strong></div>
+          <ul style="list-style: none; padding: 0; margin: 0">
+            <li><a href="register.html">Register</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="contact.html">Support</a></li>
+          </ul>
+        </div>
+        <div>
+          <div><strong>Contact</strong></div>
+          <div>Email: support@lostfound.example</div>
+          <div>Phone: +1 555 123 4567</div>
+        </div>
+        <div>
+          <div><strong>Follow us</strong></div>
+          <div style="display: flex; gap: 0.5rem; margin-top: 0.25rem">
+            <span aria-label="Twitter">🐦</span>
+            <span aria-label="Instagram">📸</span>
+            <span aria-label="Facebook">👍</span>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 1rem; font-size: 0.75rem">
+        © 2025 Lost & Found Portal. All rights reserved.
+      </div>
+    </footer>
+
+    <script>
+      // initialize
+      applyTheme(localStorage.getItem("theme") || "light");
+
+      // Filter logic
+      const tabButtons = document.querySelectorAll(".tab-btn");
+      const reportList = document.getElementById("report-list");
+      const searchInput = document.getElementById("search-input");
+      const clearBtn = document.getElementById("clear-search");
+
+      let currentType = "lost";
+
+      function filterItems() {
+        const q = searchInput.value.trim().toLowerCase();
+        document.querySelectorAll(".item-card").forEach((card) => {
+          const type = card.getAttribute("data-type");
+          const text = card.textContent.toLowerCase();
+          const matchesType = type === currentType;
+          const matchesSearch = q === "" || text.includes(q);
+          card.style.display = matchesType && matchesSearch ? "" : "none";
+        });
+      }
+
+      tabButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          tabButtons.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          currentType = btn.getAttribute("data-type");
+          tabButtons.forEach((b) => b.setAttribute("aria-selected", "false"));
+          btn.setAttribute("aria-selected", "true");
+          filterItems();
+        });
+      });
+
+      searchInput.addEventListener("input", filterItems);
+      clearBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        filterItems();
+      });
+
+      // initial filter
+      filterItems();
+    </script>
+  </body>
+</html>
