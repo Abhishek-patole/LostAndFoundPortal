@@ -2,6 +2,7 @@ require('dotenv').config();
 console.log("--- !!! STARTING APP: CHECKING ENV VARS !!! ---");
 console.log("My MONGO_URI is:", process.env.MONGO_URI);
 console.log("My JWT_SECRET is:", process.env.JWT_SECRET);
+
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
@@ -29,6 +30,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/events', eventRoutes);
 
 // Fallback for single-page or file not found
+// This block has been re-typed to remove hidden errors
 app.use((req, res, next) => {
   // if request is for API and not found:
   if (req.path.startsWith('/api/')) {
@@ -39,13 +41,14 @@ app.use((req, res, next) => {
 });
 
 // Connect to MongoDB and start server
+// This block has been re-typed to remove hidden errors
 mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-  console.log('Connected to MongoDB');
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-})
-.catch(err => {
-  console.error('--- !!! DATABASE CONNECTION FAILED !!! ---'); // <-- ADD THIS
-  console.error(err);                                    // <-- ADD THIS
-  process.exit(1);                                       // <-- ADD THIS
-});
+  .then(() => {
+    console.log('Connected to MongoDB');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch(err => {
+    console.error('--- !!! DATABASE CONNECTION FAILED !!! ---');
+    console.error(err);
+    process.exit(1);
+  });
