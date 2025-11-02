@@ -1,7 +1,5 @@
 require('dotenv').config();
-console.log("--- !!! STARTING APP: CHECKING ENV VARS !!! ---");
-console.log("My MONGO_URI is:", process.env.MONGO_URI);
-console.log("My JWT_SECRET is:", process.env.JWT_SECRET);
+
 
 const express = require('express');
 const mongoose = require('mongoose');
