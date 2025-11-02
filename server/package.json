@@ -4,6 +4,7 @@
   "description": "Lost and Found Portal with Admin Dashboard",
   "main": "server/index.js",
   "scripts": {
+    "start1": "node Admin.js",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },

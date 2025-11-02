@@ -9,7 +9,8 @@ const adminRoutes = require('./routes/admin');
 const eventRoutes = require('./routes/events');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
+
 
 // Middleware
 app.use(cors()); // adjust origin as needed for security
